@@ -1,5 +1,6 @@
 <?php
 
+use Alaouy\Youtube\Facades\Youtube;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    // List videos in a given channel, return an array of PHP objects
+    $videoList = Youtube::listChannelVideos('UChByJR-sX8CooIAc5nkV7Mg', 4);
+
+    return view('welcome', [
+        'videos' => $videoList,
+    ]);
 });
