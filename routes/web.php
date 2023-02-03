@@ -1,5 +1,7 @@
 <?php
 
+use Alaouy\Youtube\Facades\Youtube;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +16,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    // List videos in a given channel, return an array of PHP objects
+    $videoList = Youtube::listChannelVideos('UChByJR-sX8CooIAc5nkV7Mg', 40);
+    dd($videoList);
+
     return view('welcome');
 });
+
+Route::get('/dashboard', function () {
+
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
