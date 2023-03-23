@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     // List videos in a given chanel, return an array of PHP objects
-    $videoList = Youtube::listChannelVideos('UChByJR-sX8CooIAc5nkV7Mg', 4);
+    $videoList = Youtube::listChannelVideos(env('YOUTUBE_CHANNEL_CODE'), 4);
 
     return view('welcome', [
         'videos' => $videoList,   
